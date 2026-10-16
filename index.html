@@ -60,12 +60,24 @@ body{overflow-x:hidden}main,section,article,form,.split>div{min-width:0}.contact
 .portal .steps li::before{content:counter(paso);display:block;font-family:Georgia,serif;font-size:1.7rem;color:var(--gold);margin-bottom:4px}
 @media(max-width:900px){.portal{grid-template-columns:1fr;gap:20px}.portal .steps{grid-template-columns:1fr}}
 @media(max-width:760px){.portal{padding:64px 6%}}
+
+/* --- Menu desplegable en celular --- */
+.nav-links{display:contents}
+.menu-btn{display:none;align-items:center;justify-content:center;width:42px;height:38px;padding:0;background:transparent;border:1px solid var(--gold);border-radius:3px;color:var(--gold);font-size:22px;line-height:1;cursor:pointer}
+@media(max-width:760px){
+  nav{position:relative}
+  .menu-btn{display:inline-flex}
+  .nav-links{display:none}
+  nav.open .nav-links{display:flex;flex-direction:column;position:absolute;top:100%;left:-6vw;right:-6vw;z-index:60;background:#06101f;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);padding:6px 6vw}
+  nav.open .nav-links a{display:block;padding:15px 2px;font-size:1.05rem;border-bottom:1px solid #244a7f}
+  nav.open .nav-links a:last-child{border-bottom:0}
+}
 </style>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
   <header class="hero">
-    <nav aria-label="Navegación principal"><a class="brand" href="#inicio" aria-label="ELECTROVOLT TEMPLE SPA., volver al inicio"><img src="img/escudo.png" alt="" width="44" height="52"><b>ELECTROVOLT <span>TEMPLE</span></b></a><a href="#servicios">Servicios</a><a href="#nosotros">Nosotros</a><a href="portal.html">Portal de clientes</a><a href="#contacto" class="button small">Cotizar ahora</a></nav>
+    <nav aria-label="Navegación principal"><a class="brand" href="#inicio" aria-label="ELECTROVOLT TEMPLE SPA., volver al inicio"><img src="img/escudo.png" alt="" width="44" height="52"><b>ELECTROVOLT <span>TEMPLE</span></b></a><div class="nav-links" id="nav-links"><a href="#servicios">Servicios</a><a href="#nosotros">Nosotros</a><a href="portal.html">Portal de clientes</a></div><a href="#contacto" class="button small">Cotizar ahora</a><button class="menu-btn" id="menu-btn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">&#9776;</button></nav>
     <section id="inicio" class="hero-content">
       <img class="hero-art-m" src="img/hero-logo.jpg" alt="ELECTROVOLT TEMPLE SPA." width="905" height="905">
       <p class="eyebrow">ELECTRICIDAD Y ELECTRÓNICA</p>
@@ -84,5 +96,16 @@ body{overflow-x:hidden}main,section,article,form,.split>div{min-width:0}.contact
     <section id="contacto" class="contact"><div><p class="eyebrow">COTIZA TU PROYECTO</p><h2>Cuéntanos qué necesitas.</h2><p>Déjanos tus datos y te responderemos a la brevedad. También puedes llamarnos o escribirnos por WhatsApp.</p><p class="service-area"><b>Zona de atención</b><span>Trabajamos en todo Chile, con atención principal en la Región de La Araucanía (IX Región).</span></p><p><b>Teléfono y WhatsApp:</b> <a href="tel:+56934871241">+56 9 3487 1241</a><br><b>Correo:</b> <a href="mailto:contacto@electrovolttemple.cl">contacto@electrovolttemple.cl</a></p></div><form action="https://formsubmit.co/contacto@electrovolttemple.cl" method="post"><input type="hidden" name="_subject" value="Nueva solicitud desde el sitio web de ELECTROVOLT TEMPLE SPA."><input type="hidden" name="_template" value="table"><input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true"><label>Nombre<input required name="nombre" autocomplete="name"></label><label>Teléfono<input required type="tel" name="telefono" autocomplete="tel"></label><label>Correo electrónico<input required type="email" name="email" autocomplete="email"></label><label>¿En qué podemos ayudarte?<textarea required name="mensaje" rows="4" placeholder="Describe brevemente tu proyecto o necesidad."></textarea></label><button class="button" type="submit">Enviar solicitud</button><p class="fine">Al enviar, autorizas a ELECTROVOLT TEMPLE SPA. a contactarte sobre tu solicitud.</p></form></section>
   </main>
   <footer><strong>ELECTROVOLT TEMPLE SPA.</strong><span>© 2026 ELECTROVOLT TEMPLE SPA. Todos los derechos reservados. · <a href="portal.html" style="color:inherit">Portal de clientes</a></span></footer>
+<script>
+(function(){
+  var nav=document.querySelector('header nav'), btn=document.getElementById('menu-btn');
+  if(!nav||!btn) return;
+  function set(abierto){ nav.classList.toggle('open',abierto); btn.setAttribute('aria-expanded',abierto?'true':'false'); btn.setAttribute('aria-label',abierto?'Cerrar menú':'Abrir menú'); btn.innerHTML=abierto?'&#10005;':'&#9776;'; }
+  btn.addEventListener('click',function(){ set(!nav.classList.contains('open')); });
+  nav.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click',function(){ set(false); }); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
+  window.addEventListener('resize',function(){ if(window.innerWidth>760) set(false); });
+})();
+</script>
 </body>
 </html>
